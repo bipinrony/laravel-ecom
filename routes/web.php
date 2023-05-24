@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/user', function () {
+    // return view('welcome');
+    dd(env('APP_DEBUG', 'not found'));
 });
