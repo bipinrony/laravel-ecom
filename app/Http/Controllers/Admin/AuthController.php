@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
@@ -37,5 +38,11 @@ class AuthController extends Controller
         // } else {
 
         // }
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('admin.dashboard')->with('success', 'Login successfull');
+        } else {
+            return redirect()->route('admin.login.get')->with('error', 'Login failed');
+        }
     }
 }

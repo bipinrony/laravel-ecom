@@ -57,6 +57,12 @@
                         </div>
                     @endif
 
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger">
+                            <span>{{ Session('error') }}</span>
+                        </div>
+                    @endif
+
                     <form class="form-horizontal m-t-20" id="loginform" method="post"
                         action="{{ route('admin.login.post') }}">
                         @csrf
