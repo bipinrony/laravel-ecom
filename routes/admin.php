@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('admin-login', [AuthController::class, 'index'])->name('admin.login.get')->middleware('guest');
+Route::post('admin-login', [AuthController::class, 'login'])->name('admin.login.post');
+
+Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')
+    ->middleware('admin');

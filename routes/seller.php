@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Seller\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('seller-login', [AuthController::class, 'index'])->name('seller.login.get')->middleware('guest');;
+Route::post('seller-login', [AuthController::class, 'login'])->name('seller.login.post');
+
+Route::get('seller/dashboard', [DashboardController::class, 'index'])->name('seller.dashboard')->middleware('seller');
