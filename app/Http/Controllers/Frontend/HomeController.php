@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function index()
-    {
-        return view('frontend.home');
+    { 
+        $data= array();
+        $data['title']="Ecom"; 
+        return view('frontend.home', $data);
     }
 }
