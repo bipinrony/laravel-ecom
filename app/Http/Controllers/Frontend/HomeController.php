@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
     public function index()
-    { 
-        $data= array();
-        $data['title']="Ecom"; 
+    {
+        $data = array();
+        $data['title'] = "Ecom";
         return view('frontend.home', $data);
     }
 }
