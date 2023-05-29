@@ -38,7 +38,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->slug = Str::slug($request->name, '-');
         $image = $request->file('image');
-        $path = $image->store('images');
+        $path = $image->store('public/images');
         $category->image = $path;
         $category->description = $request->description;
         $category->status = $request->status;

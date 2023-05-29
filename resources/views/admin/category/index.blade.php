@@ -63,7 +63,8 @@
                                                 <td>{{ $category->name }}</td>
                                                 <td>{{ $category->slug }}</td>
                                                 <td>{{ $category->description }}</td>
-                                                <td><img src="{{ Storage::url($category->image) }}" alt="">
+                                                <td><img src="{{ Storage::url($category->image) }}" alt=""
+                                                        height="75">
                                                 </td>
                                                 <td>{{ $category->status == 1 ? 'Active' : 'Inactive' }}</td>
                                                 <td></td>
