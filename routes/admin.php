@@ -22,7 +22,13 @@ Route::post('admin-login', [AuthController::class, 'login'])->name('admin.login.
 Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')
     ->middleware('admin');
 
+Route::get('admin/categories/add', [CategoryController::class, 'create'])->name('admin.categories.get')
+    ->middleware('admin');
+Route::post('admin/categories/add', [CategoryController::class, 'store'])->name('admin.categories.post')
+    ->middleware('admin');
+
 Route::get('admin/categories', [CategoryController::class, 'index'])->name('admin.categories')
     ->middleware('admin');
+
 Route::get('admin/sub-categories', [CategoryController::class, 'subCategories'])->name('admin.sub_categories')
     ->middleware('admin');

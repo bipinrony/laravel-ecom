@@ -36,6 +36,11 @@
             <!-- Start Page Content -->
             <!-- ============================================================== -->
             <div class="row">
+                <div class="col-12 text-right mb-2">
+                    <a href="{{ route('admin.categories.get') }}" class="btn btn-primary"><i class="fa fa-plus"></i>Add
+                        new</a>
+                </div>
+
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -58,7 +63,8 @@
                                                 <td>{{ $category->name }}</td>
                                                 <td>{{ $category->slug }}</td>
                                                 <td>{{ $category->description }}</td>
-                                                <td><img src="{{ $category->image }}" alt=""></td>
+                                                <td><img src="{{ Storage::url($category->image) }}" alt="">
+                                                </td>
                                                 <td>{{ $category->status == 1 ? 'Active' : 'Inactive' }}</td>
                                                 <td></td>
                                             </tr>
@@ -99,7 +105,7 @@
         <!-- ============================================================== -->
         <!-- footer -->
         <!-- ============================================================== -->
-        @includ('layouts.admin.footer')
+        @include('layouts.admin.footer')
         <!-- ============================================================== -->
         <!-- End footer -->
         <!-- ============================================================== -->
