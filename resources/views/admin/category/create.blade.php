@@ -45,6 +45,7 @@
                             </div>
                         @endif
 
+
                         <form class="form-horizontal" action="{{ route('admin.categories.post') }}" method="post"
                             enctype="multipart/form-data">
                             @csrf

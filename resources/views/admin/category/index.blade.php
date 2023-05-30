@@ -44,6 +44,19 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+
+                            @if (Session::has('success'))
+                                <div class="alert alert-primary">
+                                    <strong>{{ Session::get('success') }}</strong>
+                                </div>
+                            @endif
+
+                            @if (Session::has('error'))
+                                <div class="alert alert-danger">
+                                    <strong>{{ Session::get('error') }}</strong>
+                                </div>
+                            @endif
+
                             <h5 class="card-title">{{ $title }}</h5>
                             <div class="table-responsive">
                                 <table id="zero_config" class="table table-striped table-bordered">
@@ -67,7 +80,18 @@
                                                         height="75">
                                                 </td>
                                                 <td>{{ $category->status == 1 ? 'Active' : 'Inactive' }}</td>
-                                                <td></td>
+                                                <td>
+                                                    <a href="{{ route('admin.categories.edit', [$category->id]) }}"><i
+                                                            class="fa fa-pencil"></i> Edit</a>
+                                                    <a href="{{ route('admin.categories.delete', [$category->id]) }}"><i
+                                                            class="fa fa-trash"></i> Delete</a>
+                                                    {{-- <form action="{{ route('admin.categories.delete') }}" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <input type="hidden" name="id" value="{{ $category->id }}">
+                                                        <input type="submit" value="delete">
+                                                    </form> --}}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>

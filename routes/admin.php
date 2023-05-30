@@ -19,16 +19,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('admin-login', [AuthController::class, 'index'])->name('admin.login.get')->middleware('guest');
 Route::post('admin-login', [AuthController::class, 'login'])->name('admin.login.post');
 
-Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')
-    ->middleware('admin');
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::get('admin/categories/add', [CategoryController::class, 'create'])->name('admin.categories.get')
-    ->middleware('admin');
-Route::post('admin/categories/add', [CategoryController::class, 'store'])->name('admin.categories.post')
-    ->middleware('admin');
+    Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories');
+    Route::get('categories/add', [CategoryController::class, 'create'])->name('admin.categories.get');
+    Route::post('categories/add', [CategoryController::class, 'store'])->name('admin.categories.post');
 
-Route::get('admin/categories', [CategoryController::class, 'index'])->name('admin.categories')
-    ->middleware('admin');
+    // Route::delete('categories', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+    Route::get('categories/delete/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
+    Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    Route::post('categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
 
-Route::get('admin/sub-categories', [CategoryController::class, 'subCategories'])->name('admin.sub_categories')
-    ->middleware('admin');
+
+    Route::get('sub-categories', [CategoryController::class, 'subCategories'])->name('admin.sub_categories');
+});

@@ -42,7 +42,6 @@ class CategoryController extends Controller
         $category->image = $path;
         $category->description = $request->description;
         $category->status = $request->status;
-        $category->save();
 
         // mass assignment
 
@@ -54,5 +53,58 @@ class CategoryController extends Controller
         // $data['status'] = $request->status;
 
         // Category::create($data); //mass assignment
+
+        if ($category->save()) {
+            return redirect()->route('admin.categories')->with('success', 'Category added successfully.');
+        } else {
+            return redirect()->route('admin.categories')->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function edit(Category $category)
+    {
+        $data = array();
+        $data['title'] = "Category";
+        $data['category'] = $category;
+        return view('admin.category.edit', $data);
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required|unique:categories,name,' . $request->id,
+            'image' => 'nullable|image',
+            'description' => 'required'
+        ]);
+
+        $category = Category::find($request->id);
+        $category->name = $request->name;
+        $category->slug = Str::slug($request->name, '-');
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->store('public/images');
+            $category->image = $path;
+        }
+        $category->description = $request->description;
+        $category->status = $request->status;
+
+
+        if ($category->save()) {
+            return redirect()->route('admin.categories')->with('success', 'Category updated successfully.');
+        } else {
+            return redirect()->route('admin.categories')->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function delete(Category $category)
+    {
+        // $category = Category::find($request->id);
+        if (!empty($category) && $category->delete()) {
+            return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
+        } else {
+            return redirect()->route('admin.categories')->with('error', 'Something went wrong.');
+        }
     }
 }
