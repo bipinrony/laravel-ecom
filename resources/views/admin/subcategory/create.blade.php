@@ -46,11 +46,21 @@
                         @endif
 
 
-                        <form class="form-horizontal" action="{{ route('admin.categories.post') }}" method="post"
+                        <form class="form-horizontal" action="{{ route('admin.subcategories.post') }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <h4 class="card-title">{{$title}}</h4>
+                                <div class="form-group row">
+                                    <label for="name"
+                                        class="col-sm-3 text-right control-label col-form-label">Category</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="category_id" id="name"
+                                            placeholder="" value="{{ old('category_id') }}">
+                                    </div>
+                                </div>
+                            <div class="card-body">
+                                
                                 <div class="form-group row">
                                     <label for="name"
                                         class="col-sm-3 text-right control-label col-form-label">Name</label>
