@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('categories/delete/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
     Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
-
-
-    Route::get('sub-categories', [CategoryController::class, 'subCategories'])->name('admin.sub_categories');
+    Route::get('sub-categories', [SubCategoryController::class, 'index'])->name('admin.sub_categories');
+    Route::get('subcategories/add', [SubCategoryController::class, 'create'])->name('admin.subcategories.get');
+    Route::post('subcategories/add', [SubCategoryController::class, 'store'])->name('admin.subcategories.post');
 });
