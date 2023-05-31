@@ -804,3 +804,16 @@
         <!-- ============================================================== -->
     </div>
 @endsection
+
+@push('scripts')
+    <!-- <script src="{{ url('admin/dist/js/pages/dashboards/dashboard1.js') }}"></script> -->
+    <!-- Charts js Files -->
+    <script src="{{ url('admin/assets/libs/flot/excanvas.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/flot/jquery.flot.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/flot/jquery.flot.crosshair.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
+    <script src="{{ url('admin/dist/js/pages/chart/chart-page-init.js') }}"></script>
+@endpush

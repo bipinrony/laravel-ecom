@@ -1,5 +1,9 @@
 @extends('layouts.admin.app')
 @section('title', $title)
+
+@push('styles')
+    <link href="{{ url('admin/assets/libs/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+@endpush
 @section('content')
 
     <div class="page-wrapper">
@@ -50,57 +54,61 @@
                             enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
-                                <h4 class="card-title">{{$title}}</h4>
+                                <h4 class="card-title">{{ $title }}</h4>
                                 <div class="form-group row">
                                     <label for="name"
                                         class="col-sm-3 text-right control-label col-form-label">Category</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="category_id" id="name"
-                                            placeholder="" value="{{ old('category_id') }}">
-                                    </div>
-                                </div>
-                            <div class="card-body">
-                                
-                                <div class="form-group row">
-                                    <label for="name"
-                                        class="col-sm-3 text-right control-label col-form-label">Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="name" id="name"
-                                            placeholder="Name Here" value="{{ old('name') }}">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="file"
-                                        class="col-sm-3 text-right control-label col-form-label">Image</label>
-                                    <div class="col-sm-9">
-                                        <input type="file" name="image" class="form-control" id="file">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="description"
-                                        class="col-sm-3 text-right control-label col-form-label">Description</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="status"
-                                        class="col-sm-3 text-right control-label col-form-label">Status</label>
-                                    <div class="col-sm-9">
-                                        <select name="status" id="status" class="form-control">
-                                            <option value="1">Active</option>
-                                            <option value="0">In active</option>
+                                        <select name="category_id[]" id="category_id" class="form-control" multiple>
+                                            <option value="">Select</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="border-top">
                                 <div class="card-body">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                                    <div class="form-group row">
+                                        <label for="name"
+                                            class="col-sm-3 text-right control-label col-form-label">Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="name" id="name"
+                                                placeholder="Name Here" value="{{ old('name') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="file"
+                                            class="col-sm-3 text-right control-label col-form-label">Image</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" name="image" class="form-control" id="file">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description"
+                                            class="col-sm-3 text-right control-label col-form-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ old('description') }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="status"
+                                            class="col-sm-3 text-right control-label col-form-label">Status</label>
+                                        <div class="col-sm-9">
+                                            <select name="status" id="status" class="form-control">
+                                                <option value="1">Active</option>
+                                                <option value="0">In active</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -130,3 +138,12 @@
         </div>
 
     @endsection
+
+    @push('scripts')
+        <script src="{{ url('admin/assets/libs/select2/dist/js/select2.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#category_id').select2();
+            });
+        </script>
+    @endpush

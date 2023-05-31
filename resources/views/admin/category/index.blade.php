@@ -138,3 +138,16 @@
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
 @endsection
+
+@push('scripts')
+    <script src="{{ url('admin/assets/extra-libs/multicheck/datatable-checkbox-init.js') }}"></script>
+    <script src="{{ url('admin/assets/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
+    <script src="{{ url('admin/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
+
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>
+@endpush
