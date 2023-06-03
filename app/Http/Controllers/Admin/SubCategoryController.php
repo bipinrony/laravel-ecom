@@ -100,7 +100,7 @@ class SubCategoryController extends Controller
         $subcategory = SubCategory::find($request->id);
         // $subcategory->category_id = $request->category_id;
         $subcategory->name = $request->name;
-        $subcategory->slug = Str::slug($request->name, '_');
+        $subcategory->slug = Str::slug($request->name, '-');
         if ($request->hasFile('image')) {
 
             $image = $request->file('image');
