@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,8 @@ class Category extends Model
     use HasFactory;
 
     //protected $table = 'category';
+
+    protected $appends = ['name_slug'];
 
     protected $fillable = [
         'name',
@@ -23,6 +26,29 @@ class Category extends Model
 
     public function subCategories()
     {
-        return $this->hasOne(SubCategory::class);
+        return $this->hasMany(CategorySubCategory::class);
+    }
+
+    // public function setNameAttribute($value)
+    // {
+    //     $this->attributes['name'] = ucwords($value);
+    // }
+
+    // public function getNameAttribute($value)
+    // {
+    //     return ucfirst($value);
+    // }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => ucwords($value),
+            set: fn (string $value) => ucwords($value),
+        );
+    }
+
+    public function getNameSlugAttribute()
+    {
+        return  $this->name . '-' . $this->slug;
     }
 }
