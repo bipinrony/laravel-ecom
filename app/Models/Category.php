@@ -26,7 +26,7 @@ class Category extends Model
 
     public function subCategories()
     {
-        return $this->hasOne(SubCategory::class);
+        return $this->hasMany(CategorySubCategory::class);
     }
 
     // public function setNameAttribute($value)
