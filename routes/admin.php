@@ -27,11 +27,20 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('categories/add', [CategoryController::class, 'create'])->name('admin.categories.get');
     Route::post('categories/add', [CategoryController::class, 'store'])->name('admin.categories.post');
 
-    // Route::delete('categories', [CategoryController::class, 'delete'])->name('admin.categories.delete');
     Route::get('categories/delete/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
     Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
+
     Route::get('sub-categories', [SubCategoryController::class, 'index'])->name('admin.sub_categories');
     Route::get('subcategories/add', [SubCategoryController::class, 'create'])->name('admin.subcategories.get');
-    Route::post('subcategories/add', [SubCategoryController::class, 'store'])->name('admin.subcategories.post');
+
+    Route::post('subcategories/add', [SubCategoryController::class, 'store'])
+        ->name('admin.subcategories.post');
+
+    Route::get('subcategories/delete/{subCategory}', [SubCategoryController::class, 'delete'])
+        ->name('admin.subcategories.delete');
+
+    Route::get('subcategories/edit/{subCategory}', [SubCategoryController::class, 'edit'])
+        ->name('admin.subcategories.edit');
+    Route::post('subcategories/update', [SubCategoryController::class, 'update'])->name('admin.subcategories.update');
 });

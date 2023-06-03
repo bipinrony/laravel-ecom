@@ -62,7 +62,7 @@
                                 <table id="zero_config" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Category_id</th>
+                                            <th>Category</th>
                                             <th>Name</th>
                                             <th>Slug</th>
                                             <th>Description</th>
@@ -74,6 +74,13 @@
                                     <tbody>
                                         @foreach ($subcategories as $subcategory)
                                             <tr>
+                                                <td>
+                                                    @forelse ($subcategory->categories as $category)
+                                                        {{ $category->category->name }},
+                                                    @empty
+                                                        --
+                                                    @endforelse
+                                                </td>
                                                 <td>{{ $subcategory->name }}</td>
                                                 <td>{{ $subcategory->slug }}</td>
                                                 <td>{{ $subcategory->description }}</td>
@@ -84,7 +91,8 @@
                                                 <td>
                                                     <a href="{{ route('admin.subcategories.edit', [$subcategory->id]) }}"><i
                                                             class="fa fa-pencil"></i> Edit</a>
-                                                    <a href="{{ route('admin.subcategories.delete', [$subcategory->id]) }}"><i
+                                                    <a
+                                                        href="{{ route('admin.subcategories.delete', [$subcategory->id]) }}"><i
                                                             class="fa fa-trash"></i> Delete</a>
                                                     {{-- <form action="{{ route('admin.categories.delete') }}" method="post">
                                                         @csrf
@@ -98,6 +106,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <th>Category</th>
                                             <th>Name</th>
                                             <th>Slug</th>
                                             <th>Description</th>
@@ -139,3 +148,16 @@
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
 @endsection
+
+@push('scripts')
+    <script src="{{ url('admin/assets/extra-libs/multicheck/datatable-checkbox-init.js') }}"></script>
+    <script src="{{ url('admin/assets/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
+    <script src="{{ url('admin/assets/extra-libs/DataTables/datatables.min.js') }}"></script>
+
+    <script>
+        /****************************************
+         *       Basic Table                   *
+         ****************************************/
+        $('#zero_config').DataTable();
+    </script>
+@endpush
