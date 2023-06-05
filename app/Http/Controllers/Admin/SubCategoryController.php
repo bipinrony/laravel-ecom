@@ -9,6 +9,8 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+use function PHPUnit\Framework\isNull;
+
 class SubCategoryController extends Controller
 {
     public function index()
@@ -129,10 +131,23 @@ class SubCategoryController extends Controller
                 $catSubCat->save();
             }
             return redirect()->route('admin.sub_categories')
-                ->with('success', 'Subcategory added successfully');
+                ->with('success', 'Subcategory updated successfully');
         } else {
             return redirect()->route('admin.sub_categories')
                 ->with('error', 'Something went wrong');
         }
     }
+
+    public function delete(SubCategory $subcategory)
+    {
+        $subcategoryId = $subcategory->id;
+        if (!empty($subcategory) && $subcategory->delete()) {
+           CategorySubCategory::where('sub_category_id', $subcategoryId)->delete(); 
+            return redirect()->route('admin.sub_categories')->with('success', 'SubCategory deleted successfully.');
+        } else {
+            return redirect()->route('admin.sub_categories')->with('error', 'Something went wrong.');
+        }
+    }
+
+
 }
