@@ -69,15 +69,15 @@
                                     <div class="col-sm-9">
                                         <select name="category_id[]" id="category_id" class="form-control" multiple>
                                             <option value="">Select</option>
-                                            @foreach ($categories as $category)
+                                            {{-- @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="name"
-                                        class="col-sm-3 text-right control-label col-form-label">Sub Category</label>
+                                    <label for="name" class="col-sm-3 text-right control-label col-form-label">Sub
+                                        Category</label>
                                     <div class="col-sm-9">
                                         <select name="sub_category_id[]" id="sub_category_id" class="form-control" multiple>
                                             <option value="">Select</option>
@@ -99,33 +99,38 @@
                                         <label for="file"
                                             class="col-sm-3 text-right control-label col-form-label">Gallery Images</label>
                                         <div class="col-sm-9">
-                                            <input required type="file" class="form-control" name="images[]" placeholder="address" multiple>
+                                            <input required type="file" class="form-control" name="images[]"
+                                                placeholder="address" multiple>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="price"
                                             class="col-sm-3 text-right control-label col-form-label">Price</label>
                                         <div class="col-sm-9">
-                                            <input name="price" id="description" class="form-control" cols="30" rows="10" value="{{ old('price') }}"/>
+                                            <input name="price" id="description" class="form-control" cols="30"
+                                                rows="10" value="{{ old('price') }}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="sale_price"
                                             class="col-sm-3 text-right control-label col-form-label">Sale Price</label>
                                         <div class="col-sm-9">
-                                            <input name="sale_price" id="description" class="form-control" cols="30" rows="10" value="{{ old('sale_price') }}"/>
+                                            <input name="sale_price" id="description" class="form-control" cols="30"
+                                                rows="10" value="{{ old('sale_price') }}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="qty_available"
                                             class="col-sm-3 text-right control-label col-form-label">QTY</label>
                                         <div class="col-sm-9">
-                                            <input name="qty_available" id="description" class="form-control" cols="30" rows="10" value="{{ old('qty_available') }}"/>
+                                            <input name="qty_available" id="description" class="form-control" cols="30"
+                                                rows="10" value="{{ old('qty_available') }}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="short_description"
-                                            class="col-sm-3 text-right control-label col-form-label">Short Description</label>
+                                            class="col-sm-3 text-right control-label col-form-label">Short
+                                            Description</label>
                                         <div class="col-sm-9">
                                             <textarea name="short_description" id="description" class="form-control" cols="30" rows="10">{{ old('short_description') }}</textarea>
                                         </div>
@@ -189,7 +194,18 @@
         <script src="{{ url('admin/assets/libs/select2/dist/js/select2.min.js') }}"></script>
         <script>
             $(document).ready(function() {
-                $('#category_id').select2();
+                $('#category_id').select2({
+                    ajax: {
+                        url: 'http://localhost:8000/api/categories',
+                        dataType: 'json',
+                        processResults: function(data) {
+                            // Transforms the top-level key of the response object from 'items' to 'results'
+                            return {
+                                results: data.data
+                            };
+                        }
+                    }
+                });
             });
             $(document).ready(function() {
                 $('#sub_category_id').select2();
