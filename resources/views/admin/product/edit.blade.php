@@ -71,19 +71,24 @@
                                         <select name="category_id[]" id="category_id" class="form-control" multiple>
                                             <option value="">Select</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" {{ in_array($category->id, $selected_categories) ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                {{ $category }}
+                                                <option value="{{ $category->id }}"
+                                                    {{ in_array($category->id, $selected_categories) ? 'selected' : '' }}>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="name"
-                                        class="col-sm-3 text-right control-label col-form-label">Sub Category</label>
+                                    <label for="name" class="col-sm-3 text-right control-label col-form-label">Sub
+                                        Category</label>
                                     <div class="col-sm-9">
                                         <select name="sub_category_id[]" id="sub_category_id" class="form-control" multiple>
                                             <option value="">Select</option>
                                             @foreach ($subcategories as $subcategory)
-                                                <option value="{{ $subcategory->id }}" {{ in_array($subcategory->id, $selected_sub_categories) ? 'selected' : '' }}>{{ $subcategory->name }}</option>
+                                                <option value="{{ $subcategory->id }}"
+                                                    {{ in_array($subcategory->id, $selected_sub_categories) ? 'selected' : '' }}>
+                                                    {{ $subcategory->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -93,18 +98,26 @@
                                         <label for="file"
                                             class="col-sm-3 text-right control-label col-form-label">Feature Image</label>
                                         <div class="col-sm-9">
-                                            <input  type="file" class="form-control" name="feature_image" placeholder="address">
-                                            <img src="{{ Storage::url($product->feature_image)}}" alt="" height="75px" class="ps-2">
+                                            <input type="file" class="form-control" name="feature_image"
+                                                placeholder="address">
+                                            <img src="{{ Storage::url($product->feature_image) }}" alt=""
+                                                height="75px" class="ps-2">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="file"
                                             class="col-sm-3 text-right control-label col-form-label">Image</label>
                                         <div class="col-sm-9">
-                                            <input type="file" class="form-control" name="images[]" placeholder="address" multiple>
-                                            @foreach($product->productImage as $productimg)
-                                                <img src="{{ Storage::url($productimg->product_image) }}" alt=""
-                                            height="75">
+                                            <input type="file" class="form-control" name="images[]" placeholder="address"
+                                                multiple>
+                                            @foreach ($product->productImage as $productimg)
+                                                <span>
+                                                    <input type="hidden" name="old_images[]"
+                                                        value="{{ $productimg->product_image }}">
+                                                    <img src="{{ Storage::url($productimg->product_image) }}"
+                                                        alt="" height="75">
+                                                    <a onclick="deleteImage(this)"> <i class="fa fa-times"></i></a>
+                                                </span>
                                             @endforeach
                                         </div>
                                     </div>
@@ -112,26 +125,30 @@
                                         <label for="price"
                                             class="col-sm-3 text-right control-label col-form-label">Price</label>
                                         <div class="col-sm-9">
-                                            <input name="price" id="description" class="form-control" cols="30" rows="10" value="{{ $product->price }}"/>
+                                            <input name="price" id="description" class="form-control" cols="30"
+                                                rows="10" value="{{ $product->price }}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="sale_price"
                                             class="col-sm-3 text-right control-label col-form-label">Sale Price</label>
                                         <div class="col-sm-9">
-                                            <input name="sale_price" id="description" class="form-control" cols="30" rows="10" value="{{ $product->sale_price }}"/>
+                                            <input name="sale_price" id="description" class="form-control" cols="30"
+                                                rows="10" value="{{ $product->sale_price }}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="qty_available"
                                             class="col-sm-3 text-right control-label col-form-label">QTY</label>
                                         <div class="col-sm-9">
-                                            <input name="qty_available" id="description" class="form-control" cols="30" rows="10" value="{{ $product->qty_available }}"/>
+                                            <input name="qty_available" id="description" class="form-control"
+                                                cols="30" rows="10" value="{{ $product->qty_available }}" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="short_description"
-                                            class="col-sm-3 text-right control-label col-form-label">Short Description</label>
+                                            class="col-sm-3 text-right control-label col-form-label">Short
+                                            Description</label>
                                         <div class="col-sm-9">
                                             <textarea name="short_description" id="description" class="form-control" cols="30" rows="10">{{ $product->short_description }}</textarea>
                                         </div>
@@ -196,9 +213,11 @@
         <script>
             $(document).ready(function() {
                 $('#category_id').select2();
-            });
-            $(document).ready(function() {
                 $('#sub_category_id').select2();
             });
+
+            function deleteImage(element) {
+                $(element).parent().remove();
+            }
         </script>
     @endpush

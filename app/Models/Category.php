@@ -12,7 +12,7 @@ class Category extends Model
 
     //protected $table = 'category';
 
-    protected $appends = ['name_slug'];
+    protected $appends = ['name_slug', 'product'];
 
     protected $fillable = [
         'name',
@@ -21,6 +21,8 @@ class Category extends Model
         'description',
         'status',
     ];
+
+    // protected $hidden = ['status'];
 
     //public $timestamps = false;
 
@@ -50,5 +52,10 @@ class Category extends Model
     public function getNameSlugAttribute()
     {
         return  $this->name . '-' . $this->slug;
+    }
+
+    public function getProductAttribute()
+    {
+        return  Product::all();
     }
 }
