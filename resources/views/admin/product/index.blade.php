@@ -86,7 +86,7 @@
                                                 </td>
                                                 <td>
                                                     @forelse ($product->subCategory as $subcategory)
-                                                        {{ $subcategory->subcategory->name }},
+                                                        {{ $subcategory->subCategory->name }},
                                                     @empty
                                                         --
                                                     @endforelse
@@ -94,8 +94,10 @@
                                             
                                                 <td>{{ $product->short_description }}</td>
                                                 <td>
-                                                    <img src="{{ Storage::url($product->productImage->product_image) }}" alt=""
-                                                        height="75">
+                                                    <img src="{{ Storage::url($product->feature_image) }}" alt=""
+                                                    height="75">
+                                                    {{-- <img src="{{ Storage::url($product->productImage->product_image) }}" alt=""
+                                                        height="75"> --}}
                                                 </td>
                                                 <td>{{ $product->status == 1 ? 'Active' : 'Inactive' }}</td>
                                                 <td>
