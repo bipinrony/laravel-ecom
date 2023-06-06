@@ -1,5 +1,9 @@
 @extends('layouts.admin.app')
 @section('title', $title)
+
+@push('styles')
+    <link href="{{ url('admin/assets/libs/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+@endpush
 @section('content')
 
     <div class="page-wrapper">
@@ -46,56 +50,117 @@
                         @endif
 
 
-                        <form class="form-horizontal" action="{{ route('admin.categories.update') }}" method="post"
+                        <form class="form-horizontal" action="{{ route('admin.product.update') }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="id" value="{{ $category->id }}">
+                            <input type="hidden" name="id" value="{{ $product->id }}">
                             <div class="card-body">
-                                <h4 class="card-title">Name</h4>
+                                <h4 class="card-title">{{ $title }}</h4>
                                 <div class="form-group row">
                                     <label for="name"
-                                        class="col-sm-3 text-right control-label col-form-label">Namae</label>
+                                        class="col-sm-3 text-right control-label col-form-label">Name</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" name="name" id="name"
-                                            placeholder="Name Here" value="{{ $category->name }}">
+                                            placeholder="Name Here" value="{{ $product->name }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="file"
-                                        class="col-sm-3 text-right control-label col-form-label">Image</label>
+                                    <label for="name"
+                                        class="col-sm-3 text-right control-label col-form-label">Category</label>
                                     <div class="col-sm-9">
-                                        <input type="file" name="image" class="form-control" id="file">
-                                        <img src="{{ Storage::url($category->image) }}" alt="" height="75">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="description"
-                                        class="col-sm-3 text-right control-label col-form-label">Description</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ $category->description }}</textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="status"
-                                        class="col-sm-3 text-right control-label col-form-label">Status</label>
-                                    <div class="col-sm-9">
-                                        <select name="status" id="status" class="form-control">
-                                            <option value="1" {{ $category->status === 1 ? 'selected' : '' }}>Active
-                                            </option>
-                                            <option value="0" {{ $category->status === 0 ? 'selected' : '' }}>In
-                                                active
-                                            </option>
+                                        <select name="category_id[]" id="category_id" class="form-control" multiple>
+                                            <option value="">Select</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}" {{ in_array($category->id, $selected_categories) ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="border-top">
-                                <div class="card-body">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                <div class="form-group row">
+                                    <label for="name"
+                                        class="col-sm-3 text-right control-label col-form-label">Sub Category</label>
+                                    <div class="col-sm-9">
+                                        <select name="sub_category_id[]" id="sub_category_id" class="form-control" multiple>
+                                            <option value="">Select</option>
+                                            @foreach ($subcategories as $subcategory)
+                                                <option value="{{ $subcategory->id }}" {{ in_array($subcategory->id, $selected_sub_categories) ? 'selected' : '' }}>{{ $subcategory->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="file"
+                                            class="col-sm-3 text-right control-label col-form-label">Feature Image</label>
+                                        <div class="col-sm-9">
+                                            <input  type="file" class="form-control" name="feature_image" placeholder="address">
+                                            <img src="{{ Storage::url($product->feature_image)}}" alt="" height="75px" class="ps-2">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="file"
+                                            class="col-sm-3 text-right control-label col-form-label">Image</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" class="form-control" name="images[]" placeholder="address" multiple>
+                                            @foreach($product->productImage as $productimg)
+                                                <img src="{{ Storage::url($productimg->product_image) }}" alt=""
+                                            height="75">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="price"
+                                            class="col-sm-3 text-right control-label col-form-label">Price</label>
+                                        <div class="col-sm-9">
+                                            <input name="price" id="description" class="form-control" cols="30" rows="10" value="{{ $product->price }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="sale_price"
+                                            class="col-sm-3 text-right control-label col-form-label">Sale Price</label>
+                                        <div class="col-sm-9">
+                                            <input name="sale_price" id="description" class="form-control" cols="30" rows="10" value="{{ $product->sale_price }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="qty_available"
+                                            class="col-sm-3 text-right control-label col-form-label">QTY</label>
+                                        <div class="col-sm-9">
+                                            <input name="qty_available" id="description" class="form-control" cols="30" rows="10" value="{{ $product->qty_available }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="short_description"
+                                            class="col-sm-3 text-right control-label col-form-label">Short Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="short_description" id="description" class="form-control" cols="30" rows="10">{{ $product->short_description }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description"
+                                            class="col-sm-3 text-right control-label col-form-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ $product->description }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="status"
+                                            class="col-sm-3 text-right control-label col-form-label">Status</label>
+                                        <div class="col-sm-9">
+                                            <select name="status" id="status" class="form-control">
+                                                <option value="1">Active</option>
+                                                <option value="0">In active</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="border-top">
+                                    <div class="card-body">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -125,3 +190,15 @@
         </div>
 
     @endsection
+
+    @push('scripts')
+        <script src="{{ url('admin/assets/libs/select2/dist/js/select2.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('#category_id').select2();
+            });
+            $(document).ready(function() {
+                $('#sub_category_id').select2();
+            });
+        </script>
+    @endpush
