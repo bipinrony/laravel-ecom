@@ -90,7 +90,14 @@
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label for="file"
-                                            class="col-sm-3 text-right control-label col-form-label">Image</label>
+                                            class="col-sm-3 text-right control-label col-form-label">Feature Image</label>
+                                        <div class="col-sm-9">
+                                            <input required type="file" class="form-control" name="feature_image" placeholder="address">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="file"
+                                            class="col-sm-3 text-right control-label col-form-label">Gallery Images</label>
                                         <div class="col-sm-9">
                                             <input required type="file" class="form-control" name="images[]" placeholder="address" multiple>
                                         </div>
