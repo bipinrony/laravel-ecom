@@ -33,23 +33,23 @@ class Product extends Model
         );
     }
 
-    // protected function shortDescription(): Attribute
-    // {
-    //     return Attribute::make(
-    //        get: fn (string $value)=> ucwords($value),
-    //        set: fn (string $value)=> ucwords($value), 
-    //     );
-    // }
+    protected function shortDescription(): Attribute
+    {
+        return Attribute::make(
+           get: fn (string $value)=> ucwords($value),
+           set: fn (string $value)=> ucwords($value), 
+        );
+    }
 
-    // protected function description(): Attribute
-    // {
-    //     return Attribute::make(
-    //      get: fn (string $value)=> ucwords($value),
-    //      set: fn (string $value)=> ucwords($value),
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+         get: fn (string $value)=> ucwords($value),
+         set: fn (string $value)=> ucwords($value),
 
-    //     ); 
-    //     $user = Category::find(1);
-    // }
+        ); 
+        $user = Category::find(1);
+    }
 
     
 }
