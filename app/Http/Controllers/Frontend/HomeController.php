@@ -37,4 +37,20 @@ class HomeController extends Controller
         $data['categories'] = Category::where('status', 1)->get();
         return view('frontend.shop', $data);
     }
+
+    public function login()
+    {
+        $data = array();
+        $data['title'] = "Login";
+        $data['categories'] = Category::where('status', 1)->get();
+        return view('frontend.login', $data);
+    }
+
+    public function register()
+    {
+        $data = array();
+        $data['title'] = "Register";
+        $data['categories'] = Category::where('status', 1)->get();
+        return view('frontend.register', $data);
+    }
 }
