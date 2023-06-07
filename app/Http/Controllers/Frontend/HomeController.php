@@ -33,8 +33,8 @@ class HomeController extends Controller
     public function shop()
     {
         $data = array();
-        $data['title'] = "Home";
-        $data['categories'] = Category::where('status', 1)->get();
+        $data['title'] = "Shop";
+        // $data['categories'] = Category::where('status', 1)->get();
         return view('frontend.shop', $data);
     }
 }
