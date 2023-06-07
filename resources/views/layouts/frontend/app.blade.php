@@ -45,7 +45,10 @@
                 <nav class="collapse navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 {{ request()->routeIs('home') ? 'show' : '' }}"
                     id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        @foreach ($categories as $category)
+                        {{-- @php
+                            $categories = App\Models\Category::where('status', 1)->get();
+                        @endphp --}}
+                        @foreach ($header_categories as $category)
                             @if ($category->subCategories->count())
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link" data-toggle="dropdown">{{ $category->name }} <i
@@ -109,8 +112,14 @@
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="{{ route('login')}}" class="nav-item nav-link">Login</a>
-                            <a href="{{ route('register')}}" class="nav-item nav-link">Register</a>
+                            @if (Auth::check())
+                                <a href="#" class="nav-item nav-link">Welcome {{ Auth::user()->name }}</a>
+                                <a href="{{ route('logout') }}" class="nav-item nav-link">Logout</a>
+                            @else
+                                <a href="{{ route('login.get') }}" class="nav-item nav-link">Login</a>
+                                <a href="{{ route('register.get') }}" class="nav-item nav-link">Register</a>
+                            @endif
+
                         </div>
                     </div>
                 </nav>

@@ -56,30 +56,11 @@ class ProductController extends Controller
         $product->status = $request->status;
 
         if ($product->save()) {
-            foreach ($request->category_id as $cat) {
-                $productCategory = new ProductCategory();
-                $productCategory->category_id = $cat;
-                $productCategory->product_id = $product->id;
-                $productCategory->save();
-            }
 
-            foreach ($request->sub_category_id as $subcat) {
-                $productSubcategory = new ProductSubCategory();
-                $productSubcategory->sub_category_id = $subcat;
-                $productSubcategory->product_id = $product->id;
-                $productSubcategory->save();
-            }
+            $this->updateCategories('add', $request, $product);
+            $this->updateImages('add', $request, $product);
+            $this->updateSubCategories('add', $request, $product);
 
-
-            if ($files = $request->file('images')) {
-                foreach ($files as $file) {
-                    $productImg = new ProductImage();
-                    $path = $file->store('public/images/products');
-                    $productImg->product_image = $path;
-                    $productImg->product_id = $product->id;
-                    $productImg->save();
-                }
-            }
             return redirect()->route('admin.products')->with('success', 'Product added successfully');
         } else {
             return redirect()->route('admin.products')->with('error', 'somthing went wrong');
@@ -129,7 +110,7 @@ class ProductController extends Controller
     //update
     public function update(Request $request)
     {
-        // dd($request->old_images);
+
         $request->validate([
             'name' => 'required|unique:products,name,' . $request->id,
             'category_id' => 'required|array',
@@ -156,21 +137,33 @@ class ProductController extends Controller
         $product->status = $request->status;
 
         if ($product->save()) {
-            ProductCategory::where('product_id', $product->id)->delete();
-            foreach ($request->category_id as $cat) {
-                $productCategory = new ProductCategory();
-                $productCategory->category_id = $cat;
-                $productCategory->product_id = $product->id;
-                $productCategory->save();
-            }
-            ProductSubCategory::where('product_id', $product->id)->delete();
-            foreach ($request->sub_category_id as $subcat) {
-                $productSubCat = new ProductSubCategory();
-                $productSubCat->sub_category_id = $subcat;
-                $productSubCat->product_id = $product->id;
-                $productSubCat->save();
-            }
 
+            $this->updateCategories('update', $request, $product);
+            $this->updateImages('update', $request, $product);
+            $this->updateSubCategories('update', $request, $product);
+
+            return redirect()->route('admin.products')->with('success', 'Product updated successfully');
+        } else {
+            return redirect()->route('admin.products')->with('error', 'somthing went wrong');
+        }
+    }
+
+    public function updateCategories($type, $request, $product)
+    {
+        if ($type == "update") {
+            ProductCategory::where('product_id', $product->id)->delete();
+        }
+        foreach ($request->category_id as $cat) {
+            $productCategory = new ProductCategory();
+            $productCategory->category_id = $cat;
+            $productCategory->product_id = $product->id;
+            $productCategory->save();
+        }
+    }
+
+    public function updateImages($type, $request, $product)
+    {
+        if ($type == "update") {
             ProductImage::where('product_id', $product->id)->delete();
             if ($request->old_images) {
                 foreach ($request->old_images as $path) {
@@ -180,19 +173,29 @@ class ProductController extends Controller
                     $productImg->save();
                 }
             }
+        }
 
-            if ($files = $request->file('images')) {
-                foreach ($files as $file) {
-                    $productImg = new ProductImage();
-                    $path = $file->store('public/images/products');
-                    $productImg->product_image = $path;
-                    $productImg->product_id = $product->id;
-                    $productImg->save();
-                }
+        if ($files = $request->file('images')) {
+            foreach ($files as $file) {
+                $productImg = new ProductImage();
+                $path = $file->store('public/images/products');
+                $productImg->product_image = $path;
+                $productImg->product_id = $product->id;
+                $productImg->save();
             }
-            return redirect()->route('admin.products')->with('success', 'Product updated successfully');
-        } else {
-            return redirect()->route('admin.products')->with('error', 'somthing went wrong');
+        }
+    }
+
+    public function updateSubCategories($type, $request, $product)
+    {
+        if ($type == "update") {
+            ProductSubCategory::where('product_id', $product->id)->delete();
+        }
+        foreach ($request->sub_category_id as $subcat) {
+            $productSubCat = new ProductSubCategory();
+            $productSubCat->sub_category_id = $subcat;
+            $productSubCat->product_id = $product->id;
+            $productSubCat->save();
         }
     }
 }

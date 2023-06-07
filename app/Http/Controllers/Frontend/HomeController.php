@@ -17,7 +17,7 @@ class HomeController extends Controller
         $data = array();
         $data['title'] = "Home";
         // $categories = DB::table('categories')->where('status', 1)->get();
-        $data['categories'] = $categories = Category::where('status', 1)->get();
+        // $data['categories'] = $categories = Category::where('status', 1)->get();
         // foreach ($categories as $category) {
         //     $subQuery = CategorySubCategory::where('category_id', $category->id)->pluck('sub_category_id')->toArray();
         //     $subCateData = SubCategory::whereIn(
@@ -36,21 +36,5 @@ class HomeController extends Controller
         $data['title'] = "Home";
         $data['categories'] = Category::where('status', 1)->get();
         return view('frontend.shop', $data);
-    }
-
-    public function login()
-    {
-        $data = array();
-        $data['title'] = "Login";
-        $data['categories'] = Category::where('status', 1)->get();
-        return view('frontend.login', $data);
-    }
-
-    public function register()
-    {
-        $data = array();
-        $data['title'] = "Register";
-        $data['categories'] = Category::where('status', 1)->get();
-        return view('frontend.register', $data);
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.frontend.app', ['categories' => $categories])
+@extends('layouts.frontend.app')
 @section('title', $title)
 
 @section('header-carousel')
