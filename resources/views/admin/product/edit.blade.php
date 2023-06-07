@@ -5,7 +5,14 @@
     <link href="{{ url('admin/assets/libs/select2/dist/css/select2.min.css') }}" rel="stylesheet">
 @endpush
 @section('content')
-
+   <style>
+      a> .cross{
+        position: absolute;
+        top: 50px;
+        margin-left: 7px;
+        color: black;
+      }
+   </style>
     <div class="page-wrapper">
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
@@ -100,8 +107,10 @@
                                         <div class="col-sm-9">
                                             <input type="file" class="form-control" name="feature_image"
                                                 placeholder="address">
+                                            <div class="my-3">
                                             <img src="{{ Storage::url($product->feature_image) }}" alt=""
                                                 height="75px" class="ps-2">
+                                            </div> 
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -110,15 +119,17 @@
                                         <div class="col-sm-9">
                                             <input type="file" class="form-control" name="images[]" placeholder="address"
                                                 multiple>
-                                            @foreach ($product->productImage as $productimg)
-                                                <span>
+                                            <div class="my-3">
+                                                @foreach ($product->productImage as $productimg)
+                                                <span class="px-3">
                                                     <input type="hidden" name="old_images[]"
                                                         value="{{ $productimg->product_image }}">
                                                     <img src="{{ Storage::url($productimg->product_image) }}"
                                                         alt="" height="75">
-                                                    <a onclick="deleteImage(this)"> <i class="fa fa-times"></i></a>
+                                                    <a onclick="deleteImage(this)"> <i class="cross fa fa-times"></i></a>
                                                 </span>
                                             @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
