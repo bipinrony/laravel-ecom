@@ -35,8 +35,8 @@ class AuthController extends Controller
 
     public function registerView()
     {
-        $user = User::find(2);
-        Mail::to($user->email)->send(new RegistrationSuccess($user));
+        //  $user = User::find();
+        // Mail::to($user->email)->send(new RegistrationSuccess($user));
 
         $data = array();
         $data['title'] = "Register";
