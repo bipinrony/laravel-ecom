@@ -7,37 +7,64 @@
             <div class="col-md-3"></div>
             <div class="col-lg-6 mb-5 shadow py-3">
                 <div class="contact-form">
-                    <center class="my-3"><h3>Sign Up</h3></center>
-                    <div id="success"></div>
-                    <form action="" method="post">
+                    <center class="my-3">
+                        <h3>Sign Up</h3>
+                    </center>
+
+                    @if (Session::has('success'))
+                        <div class="alert alert-success">
+                            <span>{{ Session('success') }}</span>
+                        </div>
+                    @endif
+
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger">
+                            <span>{{ Session('error') }}</span>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('register.post') }}" method="post">
+                        @csrf
+
                         <div class="control-group">
                             <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                required="required" data-validation-required-message="Please enter your name" />
+                                required="required" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="email" name="email" class="form-control" id="email" placeholder="Your Email"
-                                required="required" data-validation-required-message="Please enter your email" />
+                            <input type="email" name="email" class="form-control" placeholder="Your Email"
+                                required="required" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="tel" name="phone_number" class="form-control" id="subject" placeholder="Phone"
-                                required="required" data-validation-required-message="Please enter a subject" />
+                            <input type="tel" name="phone_number" class="form-control" placeholder="Phone"
+                                required="required">
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
-                            <input type="password" name="password" class="form-control" id="subject" placeholder="Password"
-                            required="required" data-validation-required-message="Please enter a subject" />
+                            <input type="password" name="password" class="form-control" placeholder="Password"
+                                required="required">
                             <p class="help-block text-danger"></p>
                         </div>
                         <div>
-                        <center><button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Register</button></center>
+                            <center><button class="btn btn-primary py-2 px-4" type="submit"
+                                    id="sendMessageButton">Register</button></center>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="col-lg-3 mb-5">
-               
+
             </div>
         </div>
     </div>
