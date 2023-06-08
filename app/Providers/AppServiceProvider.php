@@ -28,18 +28,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setCategories();
-        $this->setProducts();
     }
 
     public function setCategories()
     {
         $categories = Category::where('status', 1)->get();
         View::share('header_categories', $categories);
-    }
-
-    public function setProducts()
-    {
-        $products = Product::where('status', 1)->get();
-        View::share('products', $products);
     }
 }

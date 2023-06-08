@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\RegistrationSuccess;
 use App\Models\User;
+use App\Notifications\NewRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,8 +36,12 @@ class AuthController extends Controller
 
     public function registerView()
     {
-        //  $user = User::find();
+        // $user = User::find(2);
         // Mail::to($user->email)->send(new RegistrationSuccess($user));
+
+        // // send notification to admin
+        // $admin = User::where('role', User::ADMIN_ROLE)->first();
+        // $admin->notify(new NewRegistration($user));
 
         $data = array();
         $data['title'] = "Register";
@@ -61,6 +66,11 @@ class AuthController extends Controller
         if ($user->save()) {
             // send success mail
             Mail::to($user->email)->send(new RegistrationSuccess($user));
+
+            // send notification to admin
+            $admin = User::where('role', User::ADMIN_ROLE)->first();
+            $admin->notify(new NewRegistration($user));
+
 
             return redirect()->route('login.get')->with('success', 'registration successful.');
         } else {

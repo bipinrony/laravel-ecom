@@ -112,47 +112,32 @@
                         <ul class="list-style-none">
                             <li>
                                 <div class="">
-                                    <!-- Message -->
-                                    <a href="javascript:void(0)" class="link border-top">
-                                        <div class="d-flex no-block align-items-center p-10">
-                                            <span class="btn btn-success btn-circle"><i
-                                                    class="ti-calendar"></i></span>
-                                            <div class="m-l-10">
-                                                <h5 class="m-b-0">Event today</h5>
-                                                <span class="mail-desc">Just a reminder that event</span>
+                                    @foreach (Auth::user()->unreadNotifications as $notification)
+                                        <a href="javascript:void(0)" class="link border-top">
+                                            <div class="d-flex no-block align-items-center p-10">
+                                                <span class="btn btn-danger btn-circle"><i
+                                                        class="fa fa-link"></i></span>
+                                                <div class="m-l-10">
+                                                    @if ($notification->type === 'App\Notifications\NewRegistration')
+                                                        <h5 class="m-b-0">
+                                                            New Registration
+                                                        </h5>
+                                                        <span class="mail-desc">
+                                                            New User "{{ $notification->data['name'] }}" has been
+                                                            registered
+                                                        </span>
+                                                    @endif
+
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                    <!-- Message -->
-                                    <a href="javascript:void(0)" class="link border-top">
-                                        <div class="d-flex no-block align-items-center p-10">
-                                            <span class="btn btn-info btn-circle"><i class="ti-settings"></i></span>
-                                            <div class="m-l-10">
-                                                <h5 class="m-b-0">Settings</h5>
-                                                <span class="mail-desc">You can customize this template</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!-- Message -->
-                                    <a href="javascript:void(0)" class="link border-top">
-                                        <div class="d-flex no-block align-items-center p-10">
-                                            <span class="btn btn-primary btn-circle"><i class="ti-user"></i></span>
-                                            <div class="m-l-10">
-                                                <h5 class="m-b-0">Pavan kumar</h5>
-                                                <span class="mail-desc">Just see the my admin!</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!-- Message -->
-                                    <a href="javascript:void(0)" class="link border-top">
-                                        <div class="d-flex no-block align-items-center p-10">
-                                            <span class="btn btn-danger btn-circle"><i class="fa fa-link"></i></span>
-                                            <div class="m-l-10">
-                                                <h5 class="m-b-0">Luanch Admin</h5>
-                                                <span class="mail-desc">Just see the my new admin!</span>
-                                            </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    @endforeach
+                                    @php
+                                        Auth::user()
+                                            ->notifications()
+                                            ->delete();
+                                    @endphp
+
                                 </div>
                             </li>
                         </ul>
