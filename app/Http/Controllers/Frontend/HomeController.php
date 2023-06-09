@@ -53,30 +53,35 @@ class HomeController extends Controller
                 $products = $products->whereIn('id', $productsIds);
             }
         }
-        $products = $products->get();
+        // $products = $products->get();
+        // $products = $products->paginate(2);
+        // $products = $products->simplePaginate(2);
+        $products = $products->cursorPaginate(2);
+
+
         $data['products'] =  $products;
         return view('frontend.shop', $data);
     }
 
-    public function product($productSlug=null, $productBottomSlug=null,)
+    public function product($productSlug)
     {
         $data[] = array();
         $data['title'] = "Product";
-        $data['products'] = Product::where('slug', $productSlug)->get();
+
+        $data['product'] = $product = Product::where('slug', $productSlug)->firstOrFail();
+
         $bottomProduct = Product::where('status', 1);
-        $product= Product::where('slug', $productSlug)->firstOrFail();
-        $bottomProduct = Product::where('status', 1);
-        // dd($products);
-        // $categoryId = ProductCategory::where('product_id', $product->id)->pluck('category_id')->toArray(); 
+
         $subCategoryId = ProductSubCategory::where('product_id', $product->id)->pluck('sub_category_id')->toArray();
-        $productIds = ProductSubCategory::where('sub_category_id', $subCategoryId)->pluck('product_id')->toArray();
-        if(!empty($productIds)){
+        $productIds = ProductSubCategory::where('sub_category_id', $subCategoryId)->where('product_id', '!=', $product->id)->pluck('product_id')->toArray();
+        if (!empty($productIds)) {
             $bottomProduct = $bottomProduct->whereIn('id', $productIds);
+            $bottomProduct = $bottomProduct->get();
+            $data['bottomProducts'] = $bottomProduct;
+        } else {
+            $data['bottomProducts'] = [];
         }
-        // dd($bottomProduct);
-        $bottomProduct = $bottomProduct->get();
-        $data['bottomProducts'] = $bottomProduct;
-        // dd($bottomProduct);
+
         return view('frontend.product', $data);
     }
 }

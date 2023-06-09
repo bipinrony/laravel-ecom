@@ -175,6 +175,11 @@ class ProductController extends Controller
             }
         }
 
+        // $productImg = new ProductImage();
+        // $productImg->product_image = $product->feature_image;
+        // $productImg->product_id = $product->id;
+        // $productImg->save();
+
         if ($files = $request->file('images')) {
             foreach ($files as $file) {
                 $productImg = new ProductImage();
