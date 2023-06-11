@@ -8,6 +8,7 @@ use App\Models\CategorySubCategory;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductSubCategory;
+use App\Models\Slider;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,9 @@ class HomeController extends Controller
     {
         $data = array();
         $data['title'] = "Home";
+        $data['slider'] = Slider::all();
+        $data['subcategories'] = SubCategory::all();
+        $data['products'] = Product::all();
         // $categories = DB::table('categories')->where('status', 1)->get();
         // $data['categories'] = $categories = Category::where('status', 1)->get();
         // foreach ($categories as $category) {
@@ -84,4 +88,6 @@ class HomeController extends Controller
 
         return view('frontend.product', $data);
     }
+
+
 }
