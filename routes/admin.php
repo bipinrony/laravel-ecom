@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +52,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('product/delete/{product}', [ProductController::class, 'delete'])->name('admin.product.delete');
     Route::get('product/edit/{product}', [ProductController::class, 'edit'])->name('admin.product.edit');
     Route::post('product/update', [ProductController::class,'update'])->name('admin.product.update');
+
+    //slider
+    Route::get('slider', [SliderController::class, 'index'])->name('admin.sliders');
+    Route::get('slider/add', [SliderController::class, 'create'])->name('admin.slider.get');
+    Route::post('slider/store', [SliderController::class, 'store'])->name('admin.slider.post');
+    Route::get('slider/edit/{slider}', [SliderController::class, 'edit'])->name('admin.slider.edit');
+    Route::post('slider/update', [SliderController::class, 'update'])->name('admin.slider.update');
+    Route::get('slider/delete/{slider}', [SliderController::class, 'delete'])->name('admin.slider.delete');
 
     
 });
