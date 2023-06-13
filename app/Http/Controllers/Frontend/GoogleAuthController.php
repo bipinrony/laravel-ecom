@@ -7,10 +7,10 @@ use App\Mail\RegistrationSuccess;
 use App\Models\User;
 use App\Notifications\NewRegistration;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
@@ -22,30 +22,27 @@ class GoogleAuthController extends Controller
     public function handleGoogleCallback()
     {
         try {
-      
             $user = Socialite::driver('google')->user();
-       
-            $finduser = User::where('google_id', $user->id)->first();
-       
-            if($finduser){
-       
+            $finduser = User::where('google_uuid', $user->id)->first();
+            if ($finduser) {
                 Auth::login($finduser);
-      
-                return redirect()->intended('dashboard');
-       
-            }else{
-                $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'google_id'=> $user->id,
-                    'password' => encrypt('123456dummy')
-                ]);
-      
-                Auth::login($newUser);
-      
-                return redirect()->intended('dashboard');
+                return redirect()->route('home');
+            } else {
+                $newUser = new User();
+                $newUser->name = $user->name;
+                $newUser->email = $user->email;
+                $newUser->password = Hash::make($user->id);
+                $newUser->google_uuid = $user->id;
+                if ($newUser->save()) {
+                    Auth::login($newUser);
+                    Mail::to($user->email)->send(new RegistrationSuccess($newUser));
+
+                    // send notification to admin
+                    $admin = User::where('role', User::ADMIN_ROLE)->first();
+                    $admin->notify(new NewRegistration($newUser));
+                }
+                return redirect()->route('home');
             }
-      
         } catch (Exception  $e) {
             dd($e->getMessage());
         }

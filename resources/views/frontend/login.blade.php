@@ -48,6 +48,14 @@
                                     id="sendMessageButton">Login</button></center>
                         </div>
                     </form>
+
+                    <a href="{{ route('google_login') }}" class="btn btn-primary btn-block" style="margin-top: 10px;">
+                        Google login
+                    </a>
+
+                    <a href="{{ route('facebook_login') }}" class="btn btn-primary btn-block" style="margin-top: 10px;">
+                        Facebook login
+                    </a>
                 </div>
             </div>
             <div class="col-lg-3 mb-5">

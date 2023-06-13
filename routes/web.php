@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\FacebookAuthController;
+use App\Http\Controllers\Frontend\GoogleAuthController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +30,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/shop/{category_slug?}/{sub_category_slug?}', [HomeController::class, 'shop'])->name('shop');
 Route::get('/product/{product_slug}', [HomeController::class, 'product'])->name('product');
 
-Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google_login');
 Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+
+Route::get('auth/facebook', [FacebookAuthController::class, 'redirectToFacebook'])->name('facebook_login');
+Route::get('auth/facebook/callback', [FacebookAuthController::class, 'handleFacebookCallback']);

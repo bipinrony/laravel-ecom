@@ -21,7 +21,7 @@ class HomeController extends Controller
         $data = array();
         $data['title'] = "Home";
         $data['slider'] = Slider::all();
-        $data['subcategories'] = SubCategory::all();
+        $subcategories = SubCategory::all();
         $data['products'] = Product::all();
         // $categories = DB::table('categories')->where('status', 1)->get();
         // $data['categories'] = $categories = Category::where('status', 1)->get();
@@ -34,6 +34,10 @@ class HomeController extends Controller
 
         //     $category->sub_categories = $subCateData;
         // }
+        // foreach ($subcategories as $subcategory) {
+        //     $subcategory->total_product_count = ProductSubCategory::where('sub_category_id', $subcategory->id)->count();
+        // }
+        $data['subcategories'] = $subcategories;
         return view('frontend.home', $data);
     }
 
@@ -88,6 +92,4 @@ class HomeController extends Controller
 
         return view('frontend.product', $data);
     }
-
-
 }
