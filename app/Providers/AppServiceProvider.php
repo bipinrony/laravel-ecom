@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Support\Facades\Schema;
 use App\Models\Category;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -26,11 +26,13 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
+    { 
+        Schema::defaultStringLength(191);
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
 
         $this->setCategories();
+      
     }
 
     public function setCategories()

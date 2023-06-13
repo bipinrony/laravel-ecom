@@ -27,3 +27,6 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/shop/{category_slug?}/{sub_category_slug?}', [HomeController::class, 'shop'])->name('shop');
 Route::get('/product/{product_slug}', [HomeController::class, 'product'])->name('product');
+
+Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
