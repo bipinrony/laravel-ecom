@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\UserCreated;
+use App\Listeners\SendRegistrationMail;
 use App\Models\Category;
 use App\Observers\CategoryObserver;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        UserCreated::class => [
+            SendRegistrationMail::class,
         ],
     ];
 

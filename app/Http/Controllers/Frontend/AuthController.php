@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Mail\RegistrationSuccess;
 use App\Models\User;
 use App\Notifications\NewRegistration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+
     public function loginView()
     {
         $data = array();
@@ -30,19 +34,12 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('home')->with('success', 'Login successfull');
         } else {
-            return redirect()->route('login.get')->with('error', 'Login failed');
+            return redirect()->route('login.get')->with('error', __('auth.failed'));
         }
     }
 
     public function registerView()
     {
-        // $user = User::find(2);
-        // Mail::to($user->email)->send(new RegistrationSuccess($user));
-
-        // // send notification to admin
-        // $admin = User::where('role', User::ADMIN_ROLE)->first();
-        // $admin->notify(new NewRegistration($user));
-
         $data = array();
         $data['title'] = "Register";
         return view('frontend.register', $data);
@@ -64,12 +61,16 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->phone_number = $request->phone_number;
         if ($user->save()) {
-            // send success mail
-            Mail::to($user->email)->send(new RegistrationSuccess($user));
 
-            // send notification to admin
-            $admin = User::where('role', User::ADMIN_ROLE)->first();
-            $admin->notify(new NewRegistration($user));
+            // event(new UserCreated($user));
+            UserCreated::dispatch($user);
+
+            // // send success mail
+            // Mail::to($user->email)->send(new RegistrationSuccess($user));
+
+            // // send notification to admin
+            // $admin = User::where('role', User::ADMIN_ROLE)->first();
+            // $admin->notify(new NewRegistration($user));
 
 
             return redirect()->route('login.get')->with('success', 'registration successful.');

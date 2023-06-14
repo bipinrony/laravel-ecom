@@ -158,6 +158,12 @@
 
     <!-- Template Javascript -->
     <script src="{{ url('front/js/main.js') }}"></script>
+    <script>
+        function switchLanguage(locale) {
+            var url = "{{ url('/switch-language') }}" + '/' + locale;
+            window.location.href = url;
+        }
+    </script>
 </body>
 
 </html>

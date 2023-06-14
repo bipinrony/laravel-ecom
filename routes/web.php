@@ -4,6 +4,7 @@ use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FacebookAuthController;
 use App\Http\Controllers\Frontend\GoogleAuthController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\LocalizationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,21 +18,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/login', [AuthController::class, 'loginView'])->name('login.get');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/switch-language/{lang}', [LocalizationController::class, 'SwitchLanguage'])->name('switch-language');
 
-Route::get('/register', [AuthController::class, 'registerView'])->name('register.get');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['locale'])->group(function () {
 
-Route::get('/shop/{category_slug?}/{sub_category_slug?}', [HomeController::class, 'shop'])->name('shop');
-Route::get('/product/{product_slug}', [HomeController::class, 'product'])->name('product');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/login', [AuthController::class, 'loginView'])->name('login.get');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google_login');
-Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+    Route::get('/register', [AuthController::class, 'registerView'])->name('register.get');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-Route::get('auth/facebook', [FacebookAuthController::class, 'redirectToFacebook'])->name('facebook_login');
-Route::get('auth/facebook/callback', [FacebookAuthController::class, 'handleFacebookCallback']);
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/shop/{category_slug?}/{sub_category_slug?}', [HomeController::class, 'shop'])->name('shop');
+    Route::get('/product/{product_slug}', [HomeController::class, 'product'])->name('product');
+
+    Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google_login');
+    Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+
+    Route::get('auth/facebook', [FacebookAuthController::class, 'redirectToFacebook'])->name('facebook_login');
+    Route::get('auth/facebook/callback', [FacebookAuthController::class, 'handleFacebookCallback']);
+});

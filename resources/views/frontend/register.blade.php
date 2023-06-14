@@ -23,6 +23,8 @@
                         </div>
                     @endif
 
+                    {{ __('auth.failed') }}
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>

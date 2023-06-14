@@ -7,7 +7,7 @@
             <div class="col-lg-5 mb-5 shadow p-3">
                 <div class="contact-form">
                     <center class="my-3">
-                        <h3>Login</h3>
+                        <h3>{{ __('auth.login') }}</h3>
                     </center>
 
                     @if (Session::has('success'))
@@ -31,6 +31,8 @@
                             </ul>
                         </div>
                     @endif
+
+                    {{-- {{ __('auth.failed') }} --}}
 
                     <form action="{{ route('login.post') }}" method="post">
                         @csrf
