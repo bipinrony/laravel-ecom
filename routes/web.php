@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DBController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FacebookAuthController;
 use App\Http\Controllers\Frontend\GoogleAuthController;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/switch-language/{lang}', [LocalizationController::class, 'SwitchLanguage'])->name('switch-language');
+
+Route::get('/db', [DBController::class, 'index']);
 
 
 Route::middleware(['locale'])->group(function () {
