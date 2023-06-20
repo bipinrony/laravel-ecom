@@ -5,6 +5,7 @@ use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FacebookAuthController;
 use App\Http\Controllers\Frontend\GoogleAuthController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\HttpClientController;
 use App\Http\Controllers\LocalizationController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/switch-language/{lang}', [LocalizationController::class, 'SwitchLanguage'])->name('switch-language');
 
 Route::get('/db', [DBController::class, 'index']);
+Route::get('/http', [HttpClientController::class, 'index']);
 
 
 Route::middleware(['locale'])->group(function () {
