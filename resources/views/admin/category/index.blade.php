@@ -57,6 +57,11 @@
                                 </div>
                             @endif
 
+                            {{-- <div style="display: flex; justify-content: space-between;">
+                                <h5 class="card-title">{{ $title }}</h5>
+                                <form action=""><input type="text" name="search" placeholder="search"></form>
+                            </div> --}}
+
                             <h5 class="card-title">{{ $title }}</h5>
                             <div class="table-responsive">
                                 <table id="zero_config" class="table table-striped table-bordered">
@@ -70,7 +75,7 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    {{-- <tbody>
                                         @foreach ($categories as $category)
                                             <tr>
                                                 <td>{{ $category->name }}</td>
@@ -85,16 +90,11 @@
                                                             class="fa fa-pencil"></i> Edit</a>
                                                     <a href="{{ route('admin.categories.delete', [$category->id]) }}"><i
                                                             class="fa fa-trash"></i> Delete</a>
-                                                    {{-- <form action="{{ route('admin.categories.delete') }}" method="post">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <input type="hidden" name="id" value="{{ $category->id }}">
-                                                        <input type="submit" value="delete">
-                                                    </form> --}}
+
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    </tbody>
+                                    </tbody> --}}
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
@@ -148,6 +148,46 @@
         /****************************************
          *       Basic Table                   *
          ****************************************/
-        $('#zero_config').DataTable();
+        $(function() {
+            var table = $('#zero_config').DataTable({
+                processing: true,
+                serverSide: true,
+                displayLength: 1,
+                ajax: "{{ route('admin.categoryList') }}",
+                columnDefs: [{
+                        targets: 0,
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        targets: 1,
+                        data: 'slug',
+                        name: 'slug'
+                    },
+                    {
+                        targets: 2,
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
+                        targets: 3,
+                        data: 'product_image',
+                        name: 'product_image'
+                    },
+                    {
+                        targets: 4,
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        targets: 5,
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: true
+                    },
+                ],
+            });
+        });
     </script>
 @endpush

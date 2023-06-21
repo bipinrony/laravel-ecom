@@ -24,15 +24,17 @@ Route::post('admin-login', [AuthController::class, 'login'])->name('admin.login.
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-   // Category
+    // Category
     Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories');
+    Route::get('category-list', [CategoryController::class, 'categoryList'])->name('admin.categoryList');
+
     Route::get('categories/add', [CategoryController::class, 'create'])->name('admin.categories.get');
     Route::post('categories/store', [CategoryController::class, 'store'])->name('admin.categories.post');
 
     Route::get('categories/delete/{category}', [CategoryController::class, 'delete'])->name('admin.categories.delete');
     Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('admin.categories.edit');
     Route::post('categories/update', [CategoryController::class, 'update'])->name('admin.categories.update');
-    
+
     // Subcategory
     Route::get('sub-categories', [SubCategoryController::class, 'index'])->name('admin.sub_categories');
     Route::get('subcategories/add', [SubCategoryController::class, 'create'])->name('admin.subcategories.get');
@@ -51,7 +53,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     Route::get('product/delete/{product}', [ProductController::class, 'delete'])->name('admin.product.delete');
     Route::get('product/edit/{product}', [ProductController::class, 'edit'])->name('admin.product.edit');
-    Route::post('product/update', [ProductController::class,'update'])->name('admin.product.update');
+    Route::post('product/update', [ProductController::class, 'update'])->name('admin.product.update');
 
     //slider
     Route::get('slider', [SliderController::class, 'index'])->name('admin.sliders');
@@ -60,6 +62,4 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('slider/edit/{slider}', [SliderController::class, 'edit'])->name('admin.slider.edit');
     Route::post('slider/update', [SliderController::class, 'update'])->name('admin.slider.update');
     Route::get('slider/delete/{slider}', [SliderController::class, 'delete'])->name('admin.slider.delete');
-
-    
 });

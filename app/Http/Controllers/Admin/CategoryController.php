@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -14,9 +15,47 @@ class CategoryController extends Controller
     {
         $data = array();
         $data['title'] = "Category";
-        $data['categories'] = Category::all();
+        // $data['categories'] = Category::all();
+
+        // $categories = Category::query();
+        // if ($request->search) {
+        //     $categories = $categories->where('name', 'LIKE', '%' . $request->search . '%');
+        // }
+        // $data['categories'] = $categories->paginate(1);
+
+        // $categories = Category::query();
+        //  if ($request->search) {
+        //     // $categories = $categories->where('name', 'LIKE', '%' . $request->search . '%');
+        //     $categories = Category::where('name', 'LIKE', '%' . $request->search . '%')->paginate(1);
+        // } else {
+        //     $categories = Category::paginate(1);
+        // }
+        // $data['categories'] = $categories;
 
         return view('admin.category.index', $data);
+    }
+
+    public function categoryList()
+    {
+        $model = Category::all();
+
+        return DataTables::of($model)
+            ->addColumn('product_image', function ($row) {
+                $product_image = "<img src='" . Storage::url($row->image) . "' alt=''
+                height='75'>";
+                return $product_image;
+            })
+            ->addColumn('action', function ($row) {
+                $editUrl = route('admin.categories.edit', [$row->id]);
+                $deleteUrl = route('admin.categories.delete', [$row->id]);
+                $actionBtn = "<a href='" . $editUrl . "'><i
+                class='fa fa-pencil'></i> Edit</a>
+                <a href='" . $deleteUrl . "'><i
+                class='fa fa-trash'></i> Delete</a>";
+                return $actionBtn;
+            })
+            ->rawColumns(['product_image', 'action'])
+            ->make(true);
     }
 
     public function create()
