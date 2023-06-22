@@ -21,3 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/sub-categories', [CategoryController::class, 'subCategories']);
+
+Route::post('/add-test-data', function (Request $request) {
+    \DB::table('testing')->insert(
+        ['name' => $request->name]
+    );
+    return response()->json(['success' => true]);
+});
+
+Route::post('/test-data', function (Request $request) {
+    $test = \DB::table('testing')->get();
+    return response()->json(['success' => true, 'data' => $test]);
+});
