@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DBController;
+use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FacebookAuthController;
 use App\Http\Controllers\Frontend\GoogleAuthController;
@@ -25,6 +26,7 @@ Route::get('/switch-language/{lang}', [LocalizationController::class, 'SwitchLan
 
 Route::get('/db', [DBController::class, 'index']);
 Route::get('/http', [HttpClientController::class, 'index']);
+Route::get('/factory', [FactoryController::class, 'index']);
 
 
 Route::middleware(['locale'])->group(function () {
