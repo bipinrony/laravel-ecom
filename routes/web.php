@@ -3,6 +3,7 @@
 use App\Http\Controllers\DBController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\Frontend\AuthController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FacebookAuthController;
 use App\Http\Controllers\Frontend\GoogleAuthController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -48,4 +49,11 @@ Route::middleware(['locale'])->group(function () {
 
     Route::get('auth/facebook', [FacebookAuthController::class, 'redirectToFacebook'])->name('facebook_login');
     Route::get('auth/facebook/callback', [FacebookAuthController::class, 'handleFacebookCallback']);
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/cart', [CartController::class, 'index'])->name('cart');
+        Route::get('/cart/add/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+        Route::get('/cart/delete/{cart_item}', [CartController::class, 'removeFromCart'])->name('remove-from-cart');
+        Route::post('/cart/update/{cart_item}', [CartController::class, 'updateCart'])->name('update-cart');
+    });
 });

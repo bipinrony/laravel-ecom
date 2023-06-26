@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('seller-login', [AuthController::class, 'index'])->name('seller.login.get')->middleware('guest');;
+Route::get('seller-login', [AuthController::class, 'index'])->name('seller.login.get')->middleware('guest');
 Route::post('seller-login', [AuthController::class, 'login'])->name('seller.login.post');
 
 Route::get('seller/dashboard', [DashboardController::class, 'index'])->name('seller.dashboard')->middleware('seller');
