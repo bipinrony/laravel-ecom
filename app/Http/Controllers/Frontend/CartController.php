@@ -33,7 +33,48 @@ class CartController extends Controller
         }
         $cartItem->save();
 
+        // update cart amount
+        $this->updateCartAmount($cart);
+
         return redirect()->route('cart');
+    }
+
+
+
+    public function removeFromCart(CartItem $cartItem)
+    {
+        $cartItem->delete();
+
+        // update cart amount
+        $this->updateCartAmount($this->getCart());
+
+        return redirect()->route('cart');
+    }
+
+    public function updateQuantity(Request $request, CartItem $cartItem)
+    {
+        $response = array();
+        $request->validate([
+            'quantity' => 'required|numeric'
+        ]);
+
+        if ($request->quantity) {
+            $cartItem->quantity = $request->quantity;
+            $cartItem->save();
+
+            $response['status'] = true;
+            $response['message'] = "Quantity updated successfully";
+        } else {
+            $cartItem->delete();
+
+            $response['status'] = true;
+            $response['message'] = "Item removed successfully.";
+        }
+
+        // update cart amount
+        $this->updateCartAmount($this->getCart());
+
+        return response()->json($response);
     }
 
     public function getCart()
@@ -46,5 +87,26 @@ class CartController extends Controller
             $cart->save();
         }
         return $cart;
+    }
+
+    public function updateCartAmount($cart)
+    {
+
+        $cartItems = $cart->cartItems;
+        $subTotal = 0;
+        $taxAmount = 0;
+        foreach ($cartItems as $cartItem) {
+            $amount = $cartItem->quantity * $cartItem->price;
+            $subTotal = $subTotal + ($amount);
+            // cart item -> product
+            // product->category
+            // $category->tax
+            $tax = 18;
+            $taxAmount = $taxAmount + (($tax / 100) * $amount);
+        }
+        $cart->sub_total = $subTotal;
+        $cart->tax = $taxAmount;
+        $cart->total = $subTotal + $taxAmount;
+        $cart->save();
     }
 }

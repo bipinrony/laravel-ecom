@@ -44,8 +44,10 @@
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control form-control-sm bg-secondary text-center"
-                                            value="{{ $cartItem->quantity }}">
+                                        <input type="text"
+                                            class="form-control form-control-sm bg-secondary text-center cart-qty"
+                                            value="{{ $cartItem->quantity }}" data-id="{{ $cartItem->id }}"
+                                            data-url="{{ route('update-quantity', [$cartItem->id]) }}">
                                         <div class="input-group-btn">
                                             <button class="btn btn-sm btn-primary btn-plus">
                                                 <i class="fa fa-plus"></i>
@@ -54,8 +56,10 @@
                                     </div>
                                 </td>
                                 <td class="align-middle">${{ $cartItem->quantity * $cartItem->price }}</td>
-                                <td class="align-middle"><button class="btn btn-sm btn-primary"><i
-                                            class="fa fa-times"></i></button></td>
+                                <td class="align-middle">
+                                    <a href="{{ route('remove-from-cart', [$cartItem->id]) }}"
+                                        class="btn btn-sm btn-primary"><i class="fa fa-times"></i></a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -77,17 +81,22 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
+                            <h6 class="font-weight-medium">${{ $cart->sub_total }}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">${{ $cart->shipping }}</h6>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Tax</h6>
+                            <h6 class="font-weight-medium">${{ $cart->tax }}</h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
+                            <h5 class="font-weight-bold">${{ $cart->total }}</h5>
                         </div>
                         <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
                     </div>
@@ -98,3 +107,46 @@
     <!-- Cart End -->
 
 @endsection
+
+@push('script')
+    <script>
+        $(document).ready(function() {
+            $('.cart-qty').on('change', function() {
+                // var cartItem = $(this).data('id');
+                // var url = "{{ route('update-quantity', ['cartItem']) }}";
+                // url = url.replace('cartItem', cartItem);
+
+                var qty = $(this).val();
+                var url = $(this).data('url');
+                updateQty(qty, url);
+            });
+
+            $('.input-group-btn').on('click', function() {
+                var qty = $(this).parent().find('.cart-qty').val();
+                var url = $(this).parent().find('.cart-qty').data('url');
+                updateQty(qty, url);
+            });
+
+        });
+
+        function updateQty(qty, url) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    quantity: qty
+                },
+                success: function(res) {
+                    console.log(res);
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+@endpush

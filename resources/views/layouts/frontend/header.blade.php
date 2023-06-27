@@ -53,9 +53,9 @@
                 <i class="fas fa-heart text-primary"></i>
                 <span class="badge">0</span>
             </a>
-            <a href="" class="btn border">
+            <a href="{{ route('cart') }}" class="btn border">
                 <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge">0</span>
+                <span class="badge">{{ Helper::getCartCount() }}</span>
             </a>
 
             <select name="" id="" onchange="switchLanguage(this.value)">
