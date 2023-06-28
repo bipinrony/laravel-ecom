@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartItem;
@@ -18,8 +19,18 @@ class CartController extends Controller
         return view('frontend.cart', $data);
     }
 
-    public function addToCart(Product $product)
+
+    public function getCount()
     {
+        $response = array();
+        $response['cart_total'] = Helper::getCartCount();
+        return response()->json($response);
+    }
+
+    public function addToCart(Product $product, $quantity)
+    {
+        $response = array();
+
         $cart = $this->getCart();
         $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
         if (empty($cartItem)) {
@@ -27,16 +38,19 @@ class CartController extends Controller
             $cartItem->cart_id = $cart->id;
             $cartItem->product_id = $product->id;
             $cartItem->price = $product->sale_price;
-            $cartItem->quantity = 1;
+            $cartItem->quantity = $quantity;
         } else {
-            $cartItem->quantity = $cartItem->quantity + 1;
+            $cartItem->quantity = $cartItem->quantity + $quantity;
         }
         $cartItem->save();
 
         // update cart amount
         $this->updateCartAmount($cart);
 
-        return redirect()->route('cart');
+        $response['status'] = true;
+        $response['message'] = "Product added to cart successfully.";
+
+        return response()->json($response);
     }
 
 

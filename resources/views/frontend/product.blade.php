@@ -96,14 +96,17 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1">
+                        <input type="text" class="form-control bg-secondary text-center" id="product-quantity"
+                            value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    <button data-href="{{ route('add-to-cart', [$product->id, 'quantity']) }}"
+                        class="btn btn-primary px-3 add-product-cart-btn"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        Cart</button>
                 </div>
                 <div class="d-flex pt-2">
                     <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
@@ -267,8 +270,12 @@
                                 <div class="card-footer d-flex justify-content-between bg-light border">
                                     <a href="" class="btn btn-sm text-dark p-0"><i
                                             class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                    <a href="" class="btn btn-sm text-dark p-0"><i
-                                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                    <span class="cart-action">
+                                        <button type="button"
+                                            data-href="{{ route('add-to-cart', [$bottomProduct->id, 1]) }}"
+                                            class="btn btn-sm text-dark p-0 add-to-cart-btn"><i
+                                                class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                                    </span>
                                 </div>
                             </div>
                         </a>
@@ -279,3 +286,7 @@
     </div>
     <!-- Products End -->
 @endsection
+
+@push('script')
+    <script src="{{ url('front/js/cart.js') }}"></script>
+@endpush

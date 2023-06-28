@@ -188,9 +188,11 @@
                                 <div class="card-footer d-flex justify-content-between bg-light border">
                                     <a href="{{ route('product', [$product->slug]) }}" class="btn btn-sm text-dark p-0"><i
                                             class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                    <a href="{{ route('add-to-cart', [$product->id]) }}"
-                                        class="btn btn-sm text-dark p-0"><i
-                                            class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                                    <span class="cart-action">
+                                        <button type="button" data-href="{{ route('add-to-cart', [$product->id, 1]) }}"
+                                            class="btn btn-sm text-dark p-0 add-to-cart-btn"><i
+                                                class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                                    </span>
                                 </div>
                             </div>
 
@@ -226,3 +228,6 @@
     </div>
     <!-- Shop End -->
 @endsection
+@push('script')
+    <script src="{{ url('front/js/cart.js') }}"></script>
+@endpush

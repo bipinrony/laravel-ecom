@@ -51,8 +51,9 @@ Route::middleware(['locale'])->group(function () {
     Route::get('auth/facebook/callback', [FacebookAuthController::class, 'handleFacebookCallback']);
 
     Route::middleware(['auth'])->group(function () {
+        Route::get('/cart/get-count', [CartController::class, 'getCount'])->name('cartCount');
         Route::get('/cart', [CartController::class, 'index'])->name('cart');
-        Route::get('/cart/add/{product}', [CartController::class, 'addToCart'])->name('add-to-cart');
+        Route::get('/cart/add/{product}/{quantity}', [CartController::class, 'addToCart'])->name('add-to-cart');
         Route::get('/cart/delete/{cartItem}', [CartController::class, 'removeFromCart'])->name('remove-from-cart');
         Route::post('/cart/update-quantity/{cartItem}', [CartController::class, 'updateQuantity'])->name('update-quantity');
     });

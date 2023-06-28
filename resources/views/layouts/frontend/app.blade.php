@@ -100,7 +100,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            <a href="{{ route('home') }}" class="nav-item nav-link active">Home</a>
                             <a href="{{ route('shop') }}" class="nav-item nav-link">Shop</a>
                             <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -163,6 +163,15 @@
         function switchLanguage(locale) {
             var url = "{{ url('/switch-language') }}" + '/' + locale;
             window.location.href = url;
+        }
+
+        function getCartCount() {
+            $.ajax({
+                url: "{{ route('cartCount') }}",
+                success: function(res) {
+                    $('#cart-count').text(res.cart_total);
+                }
+            });
         }
     </script>
 

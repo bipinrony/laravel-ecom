@@ -109,18 +109,9 @@
 @endsection
 
 @push('script')
+    <script src="{{ url('front/js/cart.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('.cart-qty').on('change', function() {
-                // var cartItem = $(this).data('id');
-                // var url = "{{ route('update-quantity', ['cartItem']) }}";
-                // url = url.replace('cartItem', cartItem);
-
-                var qty = $(this).val();
-                var url = $(this).data('url');
-                updateQty(qty, url);
-            });
-
             $('.input-group-btn').on('click', function() {
                 var qty = $(this).parent().find('.cart-qty').val();
                 var url = $(this).parent().find('.cart-qty').data('url');
@@ -128,25 +119,5 @@
             });
 
         });
-
-        function updateQty(qty, url) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: {
-                    quantity: qty
-                },
-                success: function(res) {
-                    console.log(res);
-                    window.location.reload();
-                }
-            });
-        }
     </script>
 @endpush

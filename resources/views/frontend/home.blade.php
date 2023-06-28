@@ -4,17 +4,17 @@
 @section('header-carousel')
     <div id="header-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @foreach($slider as $slider)
-            <div class="carousel-item {{ $loop->first ? 'active' : ''}}" style="height: 410px;">
-                <img class="img-fluid" src="{{ Storage::url($slider->image) }}" alt="Image">
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $slider->para_text }}</h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">{{ $slider->head_text }}</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+            @foreach ($slider as $slider)
+                <div class="carousel-item {{ $loop->first ? 'active' : '' }}" style="height: 410px;">
+                    <img class="img-fluid" src="{{ Storage::url($slider->image) }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 700px;">
+                            <h4 class="text-light text-uppercase font-weight-medium mb-3">{{ $slider->para_text }}</h4>
+                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">{{ $slider->head_text }}</h3>
+                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endforeach
             {{-- <div class="carousel-item" style="height: 410px;">
                 <img class="img-fluid" src="{{ url('front/img/carousel-2.jpg') }}" alt="Image">
@@ -86,7 +86,7 @@
                     <h5 class="font-weight-semi-bold m-0">Men's dresses</h5>
                 </div>
             </div>
-            {{-- @foreach($products as $product)
+            {{-- @foreach ($products as $product)
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">{{ $product->subCategory->SubCategory-> }}</p>
@@ -521,8 +521,10 @@
                     <div class="card-footer d-flex justify-content-between bg-light border">
                         <a href="" class="btn btn-sm text-dark p-0"><i
                                 class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                        <a href="" class="btn btn-sm text-dark p-0"><i
-                                class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        <span class="cart-action">
+                            <button data-href="" class="btn btn-sm text-dark p-0 add-to-cart-btn"><i
+                                    class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -565,3 +567,7 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script src="{{ url('front/js/cart.js') }}"></script>
+@endpush
