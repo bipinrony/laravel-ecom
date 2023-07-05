@@ -58,7 +58,7 @@ function updateQty(qty, url) {
         },
         success: function (res) {
             console.log(res);
-            window.location.reload();
+            // window.location.reload();
         },
     });
 }

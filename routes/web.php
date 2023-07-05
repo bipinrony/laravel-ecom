@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/react', function () {
+    return view('welcome');
+});
+
 
 Route::get('/switch-language/{lang}', [LocalizationController::class, 'SwitchLanguage'])->name('switch-language');
 

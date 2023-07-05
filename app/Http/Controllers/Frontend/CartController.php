@@ -53,8 +53,6 @@ class CartController extends Controller
         return response()->json($response);
     }
 
-
-
     public function removeFromCart(CartItem $cartItem)
     {
         $cartItem->delete();
