@@ -11,6 +11,7 @@ use App\Models\ProductSubCategory;
 use App\Models\Slider;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -22,7 +23,11 @@ class HomeController extends Controller
         $data['title'] = "Home";
         $data['slider'] = Slider::all();
         $subcategories = SubCategory::all();
-        $data['products'] = Product::all();
+        // $data['products'] = Product::all();
+        $data['products'] = Cache::remember('products', 60, function () {
+            return Product::where('status', 1)->get();
+        });
+
         // $categories = DB::table('categories')->where('status', 1)->get();
         // $data['categories'] = $categories = Category::where('status', 1)->get();
         // foreach ($categories as $category) {

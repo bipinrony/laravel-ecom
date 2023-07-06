@@ -56,7 +56,6 @@ class ProductController extends Controller
         $product->status = $request->status;
 
         if ($product->save()) {
-
             $this->updateCategories('add', $request, $product);
             $this->updateImages('add', $request, $product);
             $this->updateSubCategories('add', $request, $product);
@@ -137,6 +136,10 @@ class ProductController extends Controller
         $product->status = $request->status;
 
         if ($product->save()) {
+
+            if ($product->wasChanged()) {
+                cache()->forget('products');
+            }
 
             $this->updateCategories('update', $request, $product);
             $this->updateImages('update', $request, $product);

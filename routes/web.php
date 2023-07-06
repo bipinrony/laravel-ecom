@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CacheController;
 use App\Http\Controllers\DBController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\Frontend\AuthController;
@@ -32,6 +33,7 @@ Route::get('/switch-language/{lang}', [LocalizationController::class, 'SwitchLan
 Route::get('/db', [DBController::class, 'index']);
 Route::get('/http', [HttpClientController::class, 'index']);
 Route::get('/factory', [FactoryController::class, 'index']);
+Route::get('/cache', [CacheController::class, 'index']);
 
 
 Route::middleware(['locale'])->group(function () {
