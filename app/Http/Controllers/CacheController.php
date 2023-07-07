@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class CacheController extends Controller
 {
     public function index()
     {
+        $str = "My first PHP script";
+        $en = Crypt::encryptString($str);
+        $de = Crypt::decryptString($en);
+        dump($en);
+        dump($de);
+        exit;
         // put
         // Cache::put('key', 'value');
         // put with time in second
