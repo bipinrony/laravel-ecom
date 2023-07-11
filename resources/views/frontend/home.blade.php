@@ -86,7 +86,6 @@
                     <h5 class="font-weight-semi-bold m-0">Men's dresses</h5>
                 </div>
             </div>
-            @dd($products)
             {{-- @foreach ($products as $product)
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
