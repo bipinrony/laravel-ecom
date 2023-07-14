@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Mamta\Contactform\Controllers\ContactMessageController;
 
-Route::get('contact-form', function () {
-
-    return 'Hello contactform';
+Route::group(['middleware' => ['web']], function () {
+    Route::get('contact-form', [ContactMessageController::class, 'index'])->name('contact-form.index');
+    Route::post('save-contact-form', [ContactMessageController::class, 'saveMessage'])->name('contact-form.saveMessage');
 });
