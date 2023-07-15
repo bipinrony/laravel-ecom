@@ -29,9 +29,9 @@ class ContactMessageController extends Controller
         Mail::to('demo@demo.com')->send(new ContactMessageMail($contactMessage));
 
         if ($contactMessage) {
-            return redirect()->route('contact-form.index')->with('success', 'Thanks for contacting.');
+            return redirect()->route('contact-form.index')->with('success', __('contactform::message.form_save_success'));
         } else {
-            return redirect()->route('contact-form.index')->with('error', 'Something went wrong.');
+            return redirect()->route('contact-form.index')->with('error', __('contactform::message.form_save_error'));
         }
     }
 }
