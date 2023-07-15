@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\RegistrationSuccess;
 use App\Models\User;
 use App\Notifications\NewRegistration;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +66,8 @@ class AuthController extends Controller
 
             // event(new UserCreated($user));
             UserCreated::dispatch($user);
+            // send email verification mail
+            event(new Registered($user));
 
             // // send success mail
             // Mail::to($user->email)->send(new RegistrationSuccess($user));
@@ -83,5 +87,20 @@ class AuthController extends Controller
     {
         Auth::logout();
         return redirect()->route('home');
+    }
+
+    public function emailVerify(EmailVerificationRequest $request, $id, $hash)
+    {
+        $request->fulfill();
+
+        return redirect()->route('home');
+    }
+    public function resendEmailVerify(Request $request)
+    {
+        if ($request->method() == "POST") {
+            $request->user()->sendEmailVerificationNotification();
+            return back()->with('message', 'Verification link sent!');
+        }
+        return view('frontend.resend-verify-email');
     }
 }

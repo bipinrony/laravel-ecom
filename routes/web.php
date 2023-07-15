@@ -10,6 +10,7 @@ use App\Http\Controllers\Frontend\GoogleAuthController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\HttpClientController;
 use App\Http\Controllers\LocalizationController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,9 @@ Route::get('/http', [HttpClientController::class, 'index']);
 Route::get('/factory', [FactoryController::class, 'index']);
 Route::get('/cache', [CacheController::class, 'index']);
 
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'emailVerify'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::get('/email/verify/resend',  [AuthController::class, 'resendEmailVerify'])->middleware('auth');
+Route::post('/email/verification-notification', [AuthController::class, 'resendEmailVerify'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::middleware(['locale'])->group(function () {
 
