@@ -3,6 +3,7 @@
 use App\Http\Controllers\CacheController;
 use App\Http\Controllers\DBController;
 use App\Http\Controllers\FactoryController;
+use App\Http\Controllers\FileStorageController;
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\FacebookAuthController;
@@ -35,6 +36,7 @@ Route::get('/db', [DBController::class, 'index']);
 Route::get('/http', [HttpClientController::class, 'index']);
 Route::get('/factory', [FactoryController::class, 'index']);
 Route::get('/cache', [CacheController::class, 'index']);
+Route::any('/file-storage', [FileStorageController::class, 'index'])->name('file-storage');
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'emailVerify'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::get('/email/verify/resend',  [AuthController::class, 'resendEmailVerify'])->middleware('auth');
